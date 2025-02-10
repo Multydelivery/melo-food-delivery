@@ -13,7 +13,21 @@ const port = process.env.PORT || 4000;
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://melo-food-delivery-frontend.vercel.app'], // Add your frontend URL here
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+}));
+
+// Handle preflight requests
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Private-Network', 'true');
+  res.sendStatus(204);
+});
 
 // db connection
 connectDB();
