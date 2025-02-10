@@ -56,3 +56,5 @@ const removeFood = async (req, res) => {
 };
 
 export { listFood, addFood, removeFood };
+
+// delete food
