@@ -14,7 +14,7 @@ const port = process.env.PORT || 4000;
 // middlewares
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://melo-food-delivery-frontend.vercel.app'], // Add your frontend URL here
+  origin: ['http://localhost:5173', 'https://melo-food-delivery-frontend.vercel.app', 'https://melo-food-delivery-admin.vercel.app'], // Add your frontend URLs here
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'token'], // Add 'token' to allowed headers
   exposedHeaders: ['Content-Type', 'Authorization'],
