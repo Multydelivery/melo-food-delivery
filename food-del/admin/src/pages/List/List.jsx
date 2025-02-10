@@ -54,7 +54,6 @@ const List = () => {
               <p>{currency}{item.price}</p>
               <div className='actions'>
                 <p className='cursor' onClick={() => removeFood(item._id)}>x</p>
-                <p className='cursor' onClick={() => navigate(`/edit/${item._id}`)}>Edit</p>
               </div>
             </div>
           );

@@ -1,13 +1,13 @@
 import express from 'express';
-import { addFood, listFood, removeFood, updateFood } from '../controllers/foodController.js';
-import upload from '../config/cloudinary.js'; // Import the Cloudinary configuration
+import multer from 'multer';
+import { addFood, listFood, removeFood } from '../controllers/foodController.js';
 
-const foodRouter = express.Router();
+const upload = multer({ dest: 'uploads/' }); // Configure multer to save files to the 'uploads' directory
 
-// Use Cloudinary for image uploads
-foodRouter.get("/list", listFood);
-foodRouter.post("/add", upload.single('image'), addFood);
-foodRouter.post("/remove", removeFood);
-foodRouter.put("/update", upload.single('image'), updateFood); // Add the update route
+const router = express.Router();
 
-export default foodRouter;
+router.get('/list', listFood);
+router.post('/add', upload.single('image'), addFood); // Use multer middleware for file upload
+router.post('/remove', removeFood);
+
+export default router;
