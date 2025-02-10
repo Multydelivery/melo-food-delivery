@@ -45,7 +45,7 @@ const removeFood = async (req, res) => {
         const publicId = food.image.split('/').pop().split('.')[0];
 
         // Delete the image from Cloudinary
-        await cloudinary.uploader.destroy(`uploads/${publicId}`);
+        await cloudinary.uploader.destroy(publicId);
 
         await foodModel.findByIdAndDelete(req.body.id);
         res.json({ success: true, message: "Food Removed" });
@@ -56,5 +56,3 @@ const removeFood = async (req, res) => {
 };
 
 export { listFood, addFood, removeFood };
-
-// delete food
