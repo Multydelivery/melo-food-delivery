@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
-import './Add.css'
-import { assets, url } from '../../assets/assets';
+import React, { useState } from 'react';
+import './Add.css';
+import { assets } from '../../assets/assets';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Add = () => {
-
-
     const [image, setImage] = useState(false);
     const [data, setData] = useState({
         name: "",
@@ -29,27 +27,31 @@ const Add = () => {
         formData.append("price", Number(data.price));
         formData.append("category", data.category);
         formData.append("image", image);
-        const response = await axios.post(`${url}/api/food/add`, formData);
-        if (response.data.success) {
-            toast.success(response.data.message)
-            setData({
-                name: "",
-                description: "",
-                price: "",
-                category: data.category
-            })
-            setImage(false);
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/food/add`, formData);
+            if (response.data.success) {
+                toast.success(response.data.message);
+                setData({
+                    name: "",
+                    description: "",
+                    price: "",
+                    category: data.category
+                });
+                setImage(false);
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('An error occurred while adding the food item.');
         }
-        else {
-            toast.error(response.data.message)
-        }
-    }
+    };
 
     const onChangeHandler = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        setData(data => ({ ...data, [name]: value }))
-    }
+        setData(data => ({ ...data, [name]: value }));
+    };
 
     return (
         <div className='add'>
@@ -72,7 +74,7 @@ const Add = () => {
                 <div className='add-category-price'>
                     <div className='add-category flex-col'>
                         <p>Product category</p>
-                        <select name='category' onChange={onChangeHandler} >
+                        <select name='category' onChange={onChangeHandler} value={data.category}>
                             <option value="Salad">Salad</option>
                             <option value="Rolls">Rolls</option>
                             <option value="Deserts">Deserts</option>
@@ -88,10 +90,10 @@ const Add = () => {
                         <input type="Number" name='price' onChange={onChangeHandler} value={data.price} placeholder='25' />
                     </div>
                 </div>
-                <button type='submit' className='add-btn' >ADD</button>
+                <button type='submit' className='add-btn'>ADD</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default Add
+export default Add;
