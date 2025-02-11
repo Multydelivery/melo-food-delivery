@@ -5,7 +5,7 @@ import axios from "axios";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const url = "http://localhost:4000";
+  const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000"; // Use Vite environment variable for backend URL
   const [food_list, setFoodList] = useState([]);
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState("");
@@ -24,7 +24,7 @@ const StoreContextProvider = (props) => {
       await axios.post(
         url + "/api/cart/add",
         { itemId },
-        { headers: { token } }
+        { headers: { Authorization: `Bearer ${token}` } } // Use Bearer token
       );
     }
   };
@@ -39,7 +39,7 @@ const StoreContextProvider = (props) => {
       await axios.post(
         url + "/api/cart/remove",
         { itemId },
-        { headers: { token } }
+        { headers: { Authorization: `Bearer ${token}` } } // Use Bearer token
       );
     }
   };
@@ -70,7 +70,7 @@ const StoreContextProvider = (props) => {
     const response = await axios.post(
       url + "/api/cart/get",
       {},
-      { headers: { token: localToken } }
+      { headers: { Authorization: `Bearer ${localToken}` } } // Use Bearer token
     );
     // Default to an empty object if cartData is not returned
     setCartItems(response.data.cartData || {});
