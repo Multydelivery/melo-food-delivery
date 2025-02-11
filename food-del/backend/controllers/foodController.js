@@ -1,5 +1,6 @@
 import foodModel from "../models/foodModel.js";
-import cloudinary from '../config/cloudinary.js'; // Import the Cloudinary configuration
+import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs';
 
 // all food list
 const listFood = async (req, res) => {
@@ -36,6 +37,35 @@ const addFood = async (req, res) => {
     }
 };
 
+// update food
+const updateFood = async (req, res) => {
+    try {
+        const { id, name, description, price, category, image } = req.body;
+        let updatedImage = image;
+
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'uploads',
+                public_id: Date.now().toString() + '-' + req.file.originalname,
+            });
+            updatedImage = result.secure_url;
+        }
+
+        const updatedFood = await foodModel.findByIdAndUpdate(id, {
+            name,
+            description,
+            price,
+            category,
+            image: updatedImage,
+        }, { new: true });
+
+        res.json({ success: true, message: "Food Updated", data: updatedFood });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: "Error" });
+    }
+};
+
 // delete food
 const removeFood = async (req, res) => {
     try {
@@ -45,7 +75,7 @@ const removeFood = async (req, res) => {
         const publicId = food.image.split('/').pop().split('.')[0];
 
         // Delete the image from Cloudinary
-        await cloudinary.uploader.destroy(publicId);
+        await cloudinary.uploader.destroy(`uploads/${publicId}`);
 
         await foodModel.findByIdAndDelete(req.body.id);
         res.json({ success: true, message: "Food Removed" });
@@ -55,4 +85,4 @@ const removeFood = async (req, res) => {
     }
 };
 
-export { listFood, addFood, removeFood };
+export { listFood, addFood, updateFood, removeFood };
