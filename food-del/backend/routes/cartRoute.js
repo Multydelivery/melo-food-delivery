@@ -9,3 +9,4 @@ cartRouter.post("/add",authMiddleware,addToCart);
 cartRouter.post("/remove",authMiddleware,removeFromCart);
 
 export default cartRouter;
+// Compare this snippet from food-del/backend/controllers/cartController.js:
