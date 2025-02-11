@@ -1,3 +1,4 @@
+import cover from './cover.png'
 import basket_icon from './basket_icon.png'
 import logo from './logo.png'
 import header_img from './header_img.png'
@@ -63,6 +64,7 @@ import checked from './checked.png'
 import un_checked from './un_checked.png'
 
 export const assets = {
+    cover,
     logo,
     basket_icon,
     header_img,
