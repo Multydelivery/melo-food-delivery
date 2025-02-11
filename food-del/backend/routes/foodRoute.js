@@ -1,15 +1,15 @@
 import express from 'express';
 import multer from 'multer';
-import { addFood, listFood, removeFood, updateFood } from '../controllers/foodController.js';
+import { addFood, listFood, removeFood } from '../controllers/foodController.js';
 import authMiddleware from '../middleware/auth.js'; // Import the authentication middleware
 
-const upload = multer({ dest: 'uploads/' }); // Configure multer to save files to the 'uploads' directory
+const storage = multer.memoryStorage(); // Use memory storage
+const upload = multer({ storage }); // Configure multer to use memory storage
 
-const router = express.Router();
+const foodRouter = express.Router();
 
-router.get('/list', listFood);
-router.post('/add', authMiddleware, upload.single('image'), addFood); // Use multer middleware for file upload
-router.post('/remove', authMiddleware, removeFood);
-router.put('/update', authMiddleware, upload.single('image'), updateFood); // Add the update route
+foodRouter.get("/list", listFood);
+foodRouter.post("/add", authMiddleware, upload.single('image'), addFood); // Use multer middleware for file upload
+foodRouter.post("/remove", authMiddleware, removeFood);
 
-export default router;
+export default foodRouter;

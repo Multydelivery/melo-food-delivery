@@ -5,7 +5,7 @@ import axios from "axios";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000"; // Use environment variable for backend URL
+  const url = "http://localhost:4000";
   const [food_list, setFoodList] = useState([]);
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState("");
@@ -62,26 +62,18 @@ const StoreContextProvider = (props) => {
   };
 
   const fetchFoodList = async () => {
-    try {
-      const response = await axios.get(url + "/api/food/list");
-      setFoodList(response.data.data);
-    } catch (error) {
-      console.error("Error fetching food list", error);
-    }
+    const response = await axios.get(url + "/api/food/list");
+    setFoodList(response.data.data);
   };
 
   const loadCartData = async (localToken) => {
-    try {
-      const response = await axios.post(
-        url + "/api/cart/get",
-        {},
-        { headers: { token: localToken } }
-      );
-      // Default to an empty object if cartData is not returned
-      setCartItems(response.data.cartData || {});
-    } catch (error) {
-      console.error("Error loading cart data", error);
-    }
+    const response = await axios.post(
+      url + "/api/cart/get",
+      {},
+      { headers: { token: localToken } }
+    );
+    // Default to an empty object if cartData is not returned
+    setCartItems(response.data.cartData || {});
   };
 
   useEffect(() => {
