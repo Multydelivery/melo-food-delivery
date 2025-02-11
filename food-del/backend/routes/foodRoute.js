@@ -1,15 +1,13 @@
 import express from 'express';
-import multer from 'multer';
-import { addFood, listFood, removeFood } from '../controllers/foodController.js';
-import authMiddleware from '../middleware/auth.js'; // Import the authentication middleware
-
-const storage = multer.memoryStorage(); // Use memory storage
-const upload = multer({ storage }); // Configure multer to use memory storage
+import { addFood, listFood, removeFood, updateFood } from '../controllers/foodController.js';
+import upload from '../config/cloudinary.js'; // Import the Cloudinary configuration
 
 const foodRouter = express.Router();
 
+// Use Cloudinary for image uploads
 foodRouter.get("/list", listFood);
-foodRouter.post("/add", authMiddleware, upload.single('image'), addFood); // Use multer middleware for file upload
-foodRouter.post("/remove", authMiddleware, removeFood);
+foodRouter.post("/add", upload.single('image'), addFood);
+foodRouter.post("/remove", removeFood);
+foodRouter.put("/update", upload.single('image'), updateFood); // Add the update route
 
 export default foodRouter;
