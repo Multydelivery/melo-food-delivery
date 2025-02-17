@@ -10,7 +10,7 @@ const Add = () => {
         name: "",
         description: "",
         price: "",
-        category: "Salad"
+        category: "Market"
     });
 
     const onSubmitHandler = async (event) => {
@@ -75,7 +75,7 @@ const Add = () => {
                     <div className='add-category flex-col'>
                         <p>Product category</p>
                         <select name='category' onChange={onChangeHandler} value={data.category}>
-                            <option value="Salad">Salad</option>
+                            <option value="Market">Market</option>
                             <option value="Rolls">Rolls</option>
                             <option value="Deserts">Deserts</option>
                             <option value="Sandwich">Sandwich</option>

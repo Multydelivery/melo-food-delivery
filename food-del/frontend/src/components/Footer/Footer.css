@@ -8,6 +8,9 @@
     padding: 20px 8vw;
     padding-top: 80px;
 }
+.footer-logo {
+    width: 40%;
+}
 .footer-content{
     width: 100%;
     display: grid;

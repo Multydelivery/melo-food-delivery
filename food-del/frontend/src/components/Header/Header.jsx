@@ -15,10 +15,10 @@ const Header = () => {
                 <button onClick={viewMenu}>View Menu</button>
                 <div className='header-image'>
                     <iframe className="soundcloud-player" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1859836161&color=%23b3b8b5&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
-                    <div className="soundcloud-info">
+                    {/* <div className="soundcloud-info">
                         <a href="https://soundcloud.com/flaneur23" title="Flâneur" target="_blank">Flâneur</a> · 
                         <a href="https://soundcloud.com/flaneur23/sound-design-signature-mix-001" title="Sound Design Signature Mix - 001" target="_blank">Sound Design Signature Mix - 001</a>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
