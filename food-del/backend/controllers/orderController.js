@@ -18,6 +18,8 @@ const placeOrder = async (req, res) => {
             items: req.body.items,
             amount: req.body.amount,
             address: req.body.address,
+            phone: req.body.phone, // Add phone field
+            currency: currency, // Add currency field
         });
         await newOrder.save();
         await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
@@ -51,6 +53,16 @@ const placeOrder = async (req, res) => {
             mode: 'payment',
         });
 
+        // Send order confirmation email
+        await sendOrderNotification({
+            _id: newOrder._id,
+            items: req.body.items,
+            amount: req.body.amount,
+            address: req.body.address,
+            phone: req.body.phone, // Pass phone field
+            currency: currency
+        }, req.body.email);
+
         res.json({ success: true, session_url: session.url });
 
     } catch (error) {
@@ -67,7 +79,9 @@ const placeOrderCod = async (req, res) => {
             items: req.body.items,
             amount: req.body.amount,
             address: req.body.address,
+            phone: req.body.phone, // Add phone field
             payment: true,
+            currency: currency, // Add currency field
         });
         await newOrder.save();
         await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
@@ -77,7 +91,14 @@ const placeOrderCod = async (req, res) => {
         console.log("Order details:", newOrder);
 
         // Send email notification to the user
-        sendOrderNotification(newOrder, req.body.email);
+        await sendOrderNotification({
+            _id: newOrder._id,
+            items: req.body.items,
+            amount: req.body.amount,
+            address: req.body.address,
+            phone: req.body.phone, // Pass phone field
+            currency: currency
+        }, req.body.email);
 
         res.json({ success: true, message: "Order Placed" });
     } catch (error) {
