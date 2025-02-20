@@ -89,4 +89,27 @@ const removeFood = async (req, res) => {
     }
 };
 
-export { listFood, addFood, updateFood, removeFood };
+// search food
+const searchFood = async (req, res) => {
+    try {
+        const { query } = req.query;
+        const results = await foodModel.find({ name: { $regex: query, $options: 'i' } });
+        res.json({ success: true, data: results });
+    } catch (error) {
+        console.error('Error searching for food items:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while searching for food items' });
+    }
+};
+
+// get food by id
+const getFoodById = async (req, res) => {
+    try {
+        const food = await foodModel.findById(req.params.id);
+        res.json({ success: true, data: food });
+    } catch (error) {
+        console.error('Error fetching food item:', error);
+        res.status(500).json({ success: false, message: 'An error occurred while fetching the food item' });
+    }
+};
+
+export { listFood, addFood, updateFood, removeFood, searchFood, getFoodById };
