@@ -3,7 +3,7 @@ import './Add.css';
 import { assets } from '../../assets/assets';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import { backendUrl } from '../../App';
 const Add = () => {
     const [image, setImage] = useState(false);
     const [data, setData] = useState({
@@ -28,7 +28,7 @@ const Add = () => {
         formData.append("category", data.category);
         formData.append("image", image);
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/food/add`, formData);
+            const response = await axios.post(backendUrl + '/api/food/add', formData);
             if (response.data.success) {
                 toast.success(response.data.message);
                 setData({
