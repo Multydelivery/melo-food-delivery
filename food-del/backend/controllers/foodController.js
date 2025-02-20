@@ -13,8 +13,12 @@ const listFood = async (req, res) => {
     }
 };
 
-// add food
 const addFood = async (req, res) => {
+    if (!req.file) return res.status(400).json({ success: false, message: "Image file is required" });
+    if (!req.body.name || !req.body.description || !req.body.price || !req.body.category) {
+        return res.status(400).json({ success: false, message: "All fields are required" });
+    }
+
     try {
         const result = await cloudinary.uploader.upload(req.file.path, {
             folder: 'uploads',
@@ -26,14 +30,14 @@ const addFood = async (req, res) => {
             description: req.body.description,
             price: req.body.price,
             category: req.body.category,
-            image: result.secure_url, // Cloudinary URL
+            image: result.secure_url,
         });
 
         await food.save();
         res.json({ success: true, message: "Food Added", data: food });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ success: false, message: "Error" });
+        console.error("Error adding food:", error);
+        res.status(500).json({ success: false, message: "Server error", error: error.message });
     }
 };
 
