@@ -7,10 +7,21 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000"; // Use Vite environment variable for backend URL
   const [food_list, setFoodList] = useState([]);
-  const [cartItems, setCartItems] = useState({});
-  const [token, setToken] = useState("");
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCartItems = localStorage.getItem('cartItems');
+    return savedCartItems ? JSON.parse(savedCartItems) : {};
+  });
+  const [token, setToken] = useState(() => localStorage.getItem('token') || "");
   const currency = "$";
   const deliveryCharge = 5;
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    localStorage.setItem('token', token);
+  }, [token]);
 
   const addToCart = async (itemId) => {
     // Update cartItems state

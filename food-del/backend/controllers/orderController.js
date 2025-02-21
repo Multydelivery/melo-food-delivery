@@ -13,6 +13,14 @@ const frontend_URL = 'http://localhost:5173';
 // Placing User Order for Frontend using stripe
 const placeOrder = async (req, res) => {
     try {
+        const currentDate = new Date();
+        const currentHour = currentDate.getHours();
+
+        // Check if the current time is within the allowed range (8:00 AM to 10:00 PM)
+        if (currentHour < 9 || currentHour >= 22) {
+            return res.status(400).json({ success: false, message: 'Orders can only be placed between 8:00 AM and 10:00 PM' });
+        }
+
         const newOrder = new orderModel({
             userId: req.body.userId,
             items: req.body.items,
@@ -22,7 +30,6 @@ const placeOrder = async (req, res) => {
             currency: currency, // Add currency field
         });
         await newOrder.save();
-        await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
         const line_items = req.body.items.map((item) => ({
             price_data: {
@@ -53,16 +60,6 @@ const placeOrder = async (req, res) => {
             mode: 'payment',
         });
 
-        // Send order confirmation email
-        await sendOrderNotification({
-            _id: newOrder._id,
-            items: req.body.items,
-            amount: req.body.amount,
-            address: req.body.address,
-            phone: req.body.phone, // Pass phone field
-            currency: currency
-        }, req.body.email);
-
         res.json({ success: true, session_url: session.url });
 
     } catch (error) {
@@ -74,6 +71,14 @@ const placeOrder = async (req, res) => {
 // Placing User Order for Frontend using cash on delivery
 const placeOrderCod = async (req, res) => {
     try {
+        const currentDate = new Date();
+        const currentHour = currentDate.getHours();
+
+        // Check if the current time is within the allowed range (9:00 AM to 10:00 PM)
+        if (currentHour < 9 || currentHour >= 22) {
+            return res.status(400).json({ success: false, message: 'Orders can only be placed between 9:00 AM and 10:00 PM' });
+        }
+
         const newOrder = new orderModel({
             userId: req.body.userId,
             items: req.body.items,
@@ -144,6 +149,21 @@ const verifyOrder = async (req, res) => {
     try {
         if (success === "true") {
             await orderModel.findByIdAndUpdate(orderId, { payment: true });
+
+            // Send order confirmation email
+            const order = await orderModel.findById(orderId);
+            await sendOrderNotification({
+                _id: order._id,
+                items: order.items,
+                amount: order.amount,
+                address: order.address,
+                phone: order.phone, // Pass phone field
+                currency: order.currency
+            }, req.body.email);
+
+            // Clear the cart after successful payment
+            await userModel.findByIdAndUpdate(order.userId, { cartData: {} });
+
             res.json({ success: true, message: "Paid" });
         } else {
             await orderModel.findByIdAndDelete(orderId);
