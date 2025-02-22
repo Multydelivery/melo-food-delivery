@@ -5,6 +5,12 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
+// Check if necessary environment variables are present
+if (!process.env.NAMECHEAP_EMAIL_USER || !process.env.NAMECHEAP_EMAIL_PASS) {
+    console.error('Missing environment variables for email configuration');
+    process.exit(1); // Exit if the environment variables are not set
+}
+
 // Create a reusable transporter object using SMTP transport
 const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com', // Namecheap's private email SMTP server
@@ -14,6 +20,11 @@ const transporter = nodemailer.createTransport({
         user: process.env.NAMECHEAP_EMAIL_USER,
         pass: process.env.NAMECHEAP_EMAIL_PASS,
     }
+});
+
+// Listen to possible errors with the transporter
+transporter.on('error', (error) => {
+    console.error('Error with the email transporter:', error);
 });
 
 // Function to send an order confirmation email
