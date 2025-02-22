@@ -22,6 +22,7 @@ const placeOrder = async (req, res) => {
             currency: currency, // Add currency field
         });
         await newOrder.save();
+        await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
 
         const line_items = req.body.items.map((item) => ({
             price_data: {
@@ -53,7 +54,7 @@ const placeOrder = async (req, res) => {
         });
 
         // Send order confirmation email
-        await sendOrderNotification({
+        sendOrderNotification({
             _id: newOrder._id,
             items: req.body.items,
             amount: req.body.amount,
@@ -90,19 +91,14 @@ const placeOrderCod = async (req, res) => {
         console.log("Order details:", newOrder);
 
         // Send email notification to the user
-        try {
-            await sendOrderNotification({
-                _id: newOrder._id,
-                items: req.body.items,
-                amount: req.body.amount,
-                address: req.body.address,
-                phone: req.body.phone, // Pass phone field
-                currency: currency
-            }, req.body.email);
-            console.log("Order confirmation email sent");
-        } catch (emailError) {
-            console.error("Error sending order confirmation email:", emailError);
-        }
+        sendOrderNotification({
+            _id: newOrder._id,
+            items: req.body.items,
+            amount: req.body.amount,
+            address: req.body.address,
+            phone: req.body.phone, // Pass phone field
+            currency: currency
+        }, req.body.email);
 
         res.json({ success: true, message: "Order Placed" });
     } catch (error) {
