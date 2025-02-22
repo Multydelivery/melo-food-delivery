@@ -1,4 +1,3 @@
-// Import necessary modules
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
