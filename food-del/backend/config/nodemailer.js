@@ -47,7 +47,7 @@ export const sendOrderNotification = (orderDetails, userEmail) => {
         subject: 'Order Confirmation',   // Subject line of the email
         html: `                          
             <div style="text-align: center;">
-                <img src="https://your-public-url.com/public/default-monochrome-black.svg" alt="Logo" style="width: 150px; height: auto;"/>
+                <img src="${process.env.API_URL}/public/default-monochrome-black.svg" alt="Logo" style="width: 150px; height: auto;"/>
             </div>
             <h1>Order Confirmation</h1>
             <p>Thank you for your order!</p>
