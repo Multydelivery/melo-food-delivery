@@ -23,12 +23,16 @@ const transporter = nodemailer.createTransport({
 });
 
 // Listen to possible errors with the transporter
-transporter.on('error', (error) => {
-    console.error('Error with the email transporter:', error);
+transporter.verify(function(error, success) {
+    if (error) {
+        console.error('Transporter configuration is invalid:', error);
+    } else {
+        console.log('Server is ready to take our messages');
+    }
 });
 
 // Function to send an order confirmation email
-export const sendOrderNotification = (orderDetails, userEmail) => {
+export const sendOrderNotification = async (orderDetails, userEmail) => {
     const itemsList = orderDetails.items.map(item => `
         <tr>
             <td>${item.name}</td>
@@ -43,9 +47,9 @@ export const sendOrderNotification = (orderDetails, userEmail) => {
 
     const mailOptions = {
         from: process.env.NAMECHEAP_EMAIL_USER,  // Sender address from environment variable
-        to: userEmail,                   // Recipient's email address
-        subject: 'Order Confirmation',   // Subject line of the email
-        html: `                          
+        to: userEmail,                           // Recipient's email address
+        subject: 'Order Confirmation',           // Subject line of the email
+        html: `                                  
             <div style="text-align: center;">
                 <img src="${process.env.API_URL}/public/default-monochrome-black.svg" alt="Logo" style="width: 150px; height: auto;"/>
             </div>
@@ -79,12 +83,12 @@ export const sendOrderNotification = (orderDetails, userEmail) => {
         `
     };
 
-    // Sending the email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error('Error sending email:', error);
-        } else {
-            console.log('Email sent successfully: ' + info.response);
-        }
-    });
+    // Sending the email asynchronously
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully: ' + info.response);
+    } catch (error) {
+        console.error('Error sending email:', error);
+        throw error; // Optionally throw to handle this error outside
+    }
 };
