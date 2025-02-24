@@ -8,6 +8,7 @@ import orderRouter from "./routes/orderRoute.js";
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { stripeWebhook } from "./controllers/orderController.js";
 
 dotenv.config();
 
@@ -55,6 +56,9 @@ app.use("/api/food", foodRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
+// Stripe webhook endpoint
+app.post('/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
+
 // Root endpoint
 app.get("/", (req, res) => {
     res.send("API Working");
@@ -64,4 +68,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
 });
-
