@@ -27,7 +27,7 @@ export const sendOrderNotification = async (orderDetails, userEmail) => {
         </tr>
     `).join('');
 
-    const deliveryCharge = 5.00;
+    const deliveryCharge = orderDetails.deliveryCharge; // Use delivery charge from order details
     const totalAmount = (orderDetails.items.reduce((total, item) => total + item.price * item.quantity, 0) + deliveryCharge).toFixed(2);
 
     const mailOptions = {

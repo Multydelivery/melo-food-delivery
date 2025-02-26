@@ -2,27 +2,31 @@ import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from "stripe";
 import { sendOrderNotification } from "../config/nodemailer.js";
+import jwt from 'jsonwebtoken'; // Import jwt
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-//config variables
+// Config variables
 const currency = "usd";
-const deliveryCharge = 5;
 const frontend_URL = process.env.API_URL || 'http://localhost:5173';
 
 // Placing User Order for Frontend using stripe
 const placeOrder = async (req, res) => {
     try {
+        // Decode the token to extract the user ID
+        const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET);
+        const userId = decodedToken.id;
+
         const newOrder = new orderModel({
-            userId: req.body.userId,
+            userId: userId,
             items: req.body.items,
-            amount: req.body.amount,
+            amount: req.body.amount + req.body.deliveryCharge, // Add delivery charge to total amount
             address: req.body.address,
-            phone: req.body.phone, // Add phone field
-            currency: currency, // Add currency field
+            phone: req.body.phone,
+            currency: currency
         });
         await newOrder.save();
-        await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+        await userModel.findByIdAndUpdate(userId, { cartData: {} });
 
         const line_items = req.body.items.map((item) => ({
             price_data: {
@@ -41,7 +45,7 @@ const placeOrder = async (req, res) => {
                 product_data: {
                     name: "Delivery Charge"
                 },
-                unit_amount: deliveryCharge * 100
+                unit_amount: req.body.deliveryCharge * 100 // Use delivery charge from request
             },
             quantity: 1
         });
@@ -108,17 +112,21 @@ const stripeWebhook = async (req, res) => {
 // Placing User Order for Frontend using cash on delivery
 const placeOrderCod = async (req, res) => {
     try {
+        // Decode the token to extract the user ID
+        const decodedToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET);
+        const userId = decodedToken.id;
+
         const newOrder = new orderModel({
-            userId: req.body.userId,
+            userId: userId,
             items: req.body.items,
-            amount: req.body.amount,
+            amount: req.body.amount + req.body.deliveryCharge, // Add delivery charge to total amount
             address: req.body.address,
-            phone: req.body.phone, // Add phone field
+            phone: req.body.phone,
             payment: true,
-            currency: currency, // Add currency field
+            currency: currency
         });
         await newOrder.save();
-        await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+        await userModel.findByIdAndUpdate(userId, { cartData: {} });
 
         // Debugging: Log email and order details
         console.log("Sending email to:", req.body.email);
@@ -128,10 +136,11 @@ const placeOrderCod = async (req, res) => {
         await sendOrderNotification({
             _id: newOrder._id,
             items: req.body.items,
-            amount: req.body.amount,
+            amount: req.body.amount + req.body.deliveryCharge,
             address: req.body.address,
-            phone: req.body.phone, // Pass phone field
-            currency: currency
+            phone: req.body.phone,
+            currency: currency,
+            deliveryCharge: req.body.deliveryCharge
         }, req.body.email);
 
         res.json({ success: true, message: "Order Placed" });
