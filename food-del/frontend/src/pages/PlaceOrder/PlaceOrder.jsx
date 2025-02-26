@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useId, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../Context/StoreContext'
 import { assets } from '../../assets/assets';
@@ -42,10 +42,12 @@ const PlaceOrder = () => {
             }
         }))
         let orderData = {
+            useId: token.userId,
             address: data,
             items: orderItems,
             amount: getTotalCartAmount() + deliveryCharge,
-            email: data.email // Include the user's email in the order data
+            email: data.email, // Include the user's email in the order data
+            phone: data.phone // Include the user's phone in the order data
         }
         console.log("Order Data:", orderData); // Debugging: Log order data
         if (payment === "stripe") {
