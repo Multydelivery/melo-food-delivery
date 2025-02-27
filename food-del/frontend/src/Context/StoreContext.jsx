@@ -10,17 +10,7 @@ const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState("");
   const currency = "$";
-  const [deliveryCharge, setDeliveryCharge] = useState(0);
-
-  const updateDeliveryCharge = (zipcode) => {
-    const deliveryCharges = {
-      '07631': 5,
-      '07632': 10,
-      '07633': 15,
-    };
-    const charge = deliveryCharges[zipcode] || 0;
-    setDeliveryCharge(charge);
-  };
+  const deliveryCharge = 5;
 
   const addToCart = async (itemId) => {
     // Update cartItems state
@@ -112,7 +102,6 @@ const StoreContextProvider = (props) => {
     setCartItems,
     currency,
     deliveryCharge,
-    updateDeliveryCharge, // Include the function to update delivery charge
   };
 
   return (
