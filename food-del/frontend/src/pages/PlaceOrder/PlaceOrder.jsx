@@ -40,6 +40,16 @@ const PlaceOrder = () => {
 
   const placeOrder = async (e) => {
     e.preventDefault();
+
+    // Calculate delivery charge using the DeliveryChargeCalculator logic
+    const deliveryFee = DeliveryChargeCalculator.calculateDeliveryCharge(data.zipcode);
+
+    // Check if the zip code is served
+    if (deliveryFee === null) {
+      toast.error("We do not deliver to this location.");
+      return; // Stop the order process if the zip code is not served
+    }
+
     let orderItems = [];
     food_list.forEach((item) => {
       if (cartItems[item._id] > 0) {
@@ -48,22 +58,23 @@ const PlaceOrder = () => {
       }
     });
 
-    const deliveryFee = calculateDeliveryCharge(data.zipcode); // Calculate delivery fee
-
-    // Check if zip code is served
-    if (deliveryFee === null) {
-      toast.error("We do not deliver to this location.");   
-        return; // Exit the function
-    }
+    // Calculate the total amount (subtotal + delivery fee)
+    const totalAmount = getTotalCartAmount() + deliveryFee;
 
     let orderData = {
       userId: token.userId,
       items: orderItems,
-      amount: getTotalCartAmount() + deliveryFee,
-      address: `${data.street}, ${data.city}, ${data.state}, ${data.zipcode}, ${data.country}`,
+      amount: totalAmount,
+      name: `${data.firstName} ${data.lastName}`, // Combine first and last name
+      address: {
+        street: data.street,
+        city: data.city,
+        state: data.state,
+        zipcode: data.zipcode
+      },
       phone: data.phone,
       email: data.email,
-      deliveryCharge: deliveryFee // Include delivery charge
+      deliveryCharge: deliveryFee
     };
 
     try {
@@ -89,22 +100,6 @@ const PlaceOrder = () => {
       console.error("Error placing order:", error);
       toast.error("An error occurred while placing the order.");
     }
-  };
-
-  const calculateDeliveryCharge = (zip) => {
-    const deliveryCharges = {
-      "07631": 5, // Englewood, NJ
-      "07666": 5, // Englewood, NJ (shared with Teaneck)
-      "07608": 7, // Teaneck, NJ
-      "07024": 7, // Fort Lee, NJ
-      "07621": 7, // Bergenfield, NJ
-      "07670": 7, // Tenafly, NJ
-      "07601": 7, // Hackensack, NJ
-      "07652": 7, // Paramus, NJ
-      "07450": 7, // Ridgewood, NJ
-      "07650": 7, // Palisades Park, NJ
-    };
-    return deliveryCharges[zip] || 10; // Default to $10 if zip code is not found
   };
 
   useEffect(() => {
@@ -140,12 +135,12 @@ const PlaceOrder = () => {
         <div className="cart-total">
           <h2>Cart Totals</h2>
           <div>
-            <div className="cart-total-details"><p>Subtotal</p><p>{currency}{getTotalCartAmount()}</p></div>
+            <div className="cart-total-details"><p>Subtotal</p><p>{currency}{getTotalCartAmount().toFixed(2)}</p></div>
             <hr />
             {/* Use DeliveryChargeCalculator component here */}
             <DeliveryChargeCalculator zipCode={data.zipcode} />
             <hr />
-            <div className="cart-total-details"><b>Total</b><b>{currency}{getTotalCartAmount() + calculateDeliveryCharge(data.zipcode)}</b></div>
+            <div className="cart-total-details"><b>Total</b><b>{currency}{(getTotalCartAmount() + (DeliveryChargeCalculator.calculateDeliveryCharge(data.zipcode) || 0)).toFixed(2)}</b></div>
           </div>
         </div>
         <div className="payment">
