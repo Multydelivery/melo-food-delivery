@@ -9,6 +9,7 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
     const { addToCart } = useContext(StoreContext);
     const navigate = useNavigate();
+    const { cartItems } = useContext(StoreContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -35,7 +36,7 @@ const ProductDetails = () => {
             <p>Price: ${product.price}</p>
             <p>Category: {product.category}</p>
             <button onClick={() => addToCart(product._id)}>Add to Cart</button>
-            <button className="view-cart-button" onClick={() => navigate('/cart')}>View Cart</button>
+            <button className="view-cart-button" onClick={() => navigate('/cart')}>View Cart ({Object.keys(cartItems).length})</button>
         </div>
     );
 };

@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Verify from './pages/Verify/Verify';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import StoreContextProvider from './Context/StoreContext';
+import Search from './components/Search/Search';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -22,6 +23,8 @@ const App = () => {
       {showLogin ? <LoginPopup setShowLogin={setShowLogin} /> : null}
       <div className='app'>
         <Navbar setShowLogin={setShowLogin} />
+        <br />
+        <Search />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='product/:id' element={<ProductDetails />} />

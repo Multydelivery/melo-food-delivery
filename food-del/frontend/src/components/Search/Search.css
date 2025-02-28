@@ -1,7 +1,13 @@
 .search {
-    position: relative;
+    position: sticky;
+    top: 10px; /* Adjust this value based on your navbar height */
+    right: 10px; /* Position it on the right side */
+    z-index: 1000; /* Ensure it stays above other content */
+    background-color: white; /* Add background color for better visibility */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
 }
-
 
 .search-icon {
     cursor: pointer;
@@ -19,6 +25,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-right: 8px;
+    width: 200px; /* Set a fixed width for the input */
 }
 
 .search button {
@@ -40,6 +47,8 @@
     border-radius: 4px;
     margin-top: 8px;
     z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto; /* Add scroll for overflow */
 }
 
 .search-result-item {
@@ -50,4 +59,8 @@
 
 .search-result-item:last-child {
     border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: #f8f9fa; /* Add hover effect */
 }
