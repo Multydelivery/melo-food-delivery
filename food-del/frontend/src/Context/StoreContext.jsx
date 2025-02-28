@@ -7,33 +7,26 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const url = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
   const [food_list, setFoodList] = useState([]);
-  const [cartItems, setCartItems] = useState({});
+  const [cartItems, setCartItems] = useState(() => {
+    // Load cart items from localStorage on initial render
+    const savedCartItems = localStorage.getItem("cartItems");
+    return savedCartItems ? JSON.parse(savedCartItems) : {};
+  });
   const [token, setToken] = useState("");
   const currency = "$";
   const deliveryCharge = 0;
 
-  // Load cart items from localStorage on initial load
+  // Save cart items to localStorage whenever they change
   useEffect(() => {
-    const savedCartItems = localStorage.getItem("cartItems");
-    if (savedCartItems) {
-      console.log("Loaded cartItems from localStorage:", JSON.parse(savedCartItems));
-      setCartItems(JSON.parse(savedCartItems));
-    }
-  }, []);
-
-  // Save cart items to localStorage whenever they change (for unauthenticated users)
-  useEffect(() => {
-    if (!token) {
-      console.log("Saving cartItems to localStorage:", cartItems);
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    }
-  }, [cartItems, token]);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = async (itemId) => {
-    setCartItems((prev) => ({
-      ...prev,
-      [itemId]: prev[itemId] ? prev[itemId] + 1 : 1,
-    }));
+    const newCartItems = {
+      ...cartItems,
+      [itemId]: cartItems[itemId] ? cartItems[itemId] + 1 : 1,
+    };
+    setCartItems(newCartItems);
 
     if (token) {
       await axios.post(
@@ -45,10 +38,11 @@ const StoreContextProvider = (props) => {
   };
 
   const removeFromCart = async (itemId) => {
-    setCartItems((prev) => ({
-      ...prev,
-      [itemId]: prev[itemId] - 1,
-    }));
+    const newCartItems = {
+      ...cartItems,
+      [itemId]: cartItems[itemId] - 1,
+    };
+    setCartItems(newCartItems);
 
     if (token) {
       await axios.post(
@@ -78,25 +72,20 @@ const StoreContextProvider = (props) => {
 
   const fetchFoodList = async () => {
     const response = await axios.get(url + "/api/food/list");
-    console.log("Fetched food list:", response.data.data);
     setFoodList(response.data.data);
   };
 
   const loadCartData = async (localToken) => {
-    try {
-      const response = await axios.post(
-        url + "/api/cart/get",
-        {},
-        { headers: { Authorization: `Bearer ${localToken}` } }
-      );
-      console.log("Cart data from backend:", response.data.cartData);
-      // Default to an empty object if cartData is undefined
-      setCartItems(response.data.cartData || {});
-    } catch (error) {
-      console.error("Error fetching cart data:", error);
-      // Default to an empty object if there's an error
-      setCartItems({});
-    }
+    const response = await axios.post(
+      url + "/api/cart/get",
+      {},
+      { headers: { Authorization: `Bearer ${localToken}` } }
+    );
+    // Merge server cart data with localStorage cart data
+    const serverCartData = response.data.cartData || {};
+    const localCartData = JSON.parse(localStorage.getItem("cartItems")) || {};
+    const mergedCartData = { ...localCartData, ...serverCartData };
+    setCartItems(mergedCartData);
   };
 
   useEffect(() => {
@@ -104,15 +93,8 @@ const StoreContextProvider = (props) => {
       await fetchFoodList();
       const localToken = localStorage.getItem("token");
       if (localToken) {
-        console.log("User is authenticated, loading cart data from backend");
         setToken(localToken);
         await loadCartData(localToken);
-      } else {
-        console.log("User is not authenticated, loading cart data from localStorage");
-        const savedCartItems = localStorage.getItem("cartItems");
-        if (savedCartItems) {
-          setCartItems(JSON.parse(savedCartItems));
-        }
       }
     }
     loadData();

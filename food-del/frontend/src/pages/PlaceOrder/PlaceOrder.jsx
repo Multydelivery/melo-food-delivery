@@ -40,16 +40,16 @@ const PlaceOrder = () => {
 
   const placeOrder = async (e) => {
     e.preventDefault();
-  
+
     // Calculate delivery charge using the DeliveryChargeCalculator logic
     const deliveryFee = DeliveryChargeCalculator.calculateDeliveryCharge(data.zipcode);
-  
+
     // Check if the zip code is served
     if (deliveryFee === null) {
       toast.error("We do not deliver to this location.");
       return; // Stop the order process if the zip code is not served
     }
-  
+
     let orderItems = [];
     food_list.forEach((item) => {
       if (cartItems[item._id] > 0) {
@@ -57,11 +57,12 @@ const PlaceOrder = () => {
         orderItems.push(itemInfo);
       }
     });
-  
+
     // Calculate the total amount (subtotal + delivery fee)
     const totalAmount = getTotalCartAmount() + deliveryFee;
-  
+
     let orderData = {
+      userId: token.userId,
       items: orderItems,
       amount: totalAmount,
       name: `${data.firstName} ${data.lastName}`, // Combine first and last name
@@ -69,18 +70,16 @@ const PlaceOrder = () => {
         street: data.street,
         city: data.city,
         state: data.state,
-        zipcode: data.zipcode,
+        zipcode: data.zipcode
       },
       phone: data.phone,
       email: data.email,
-      deliveryCharge: deliveryFee,
+      deliveryCharge: deliveryFee
     };
-  
+
     try {
       if (payment === "stripe") {
-        let response = await axios.post(url + "/api/order/place", orderData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        let response = await axios.post(url + "/api/order/place", orderData, { headers: { token } });
         if (response.data.success) {
           const { session_url } = response.data;
           window.location.replace(session_url);
@@ -88,9 +87,7 @@ const PlaceOrder = () => {
           toast.error("Something Went Wrong");
         }
       } else {
-        let response = await axios.post(url + "/api/order/placecod", orderData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        let response = await axios.post(url + "/api/order/placecod", orderData, { headers: { token } });
         if (response.data.success) {
           navigate("/myorders");
           toast.success(response.data.message);

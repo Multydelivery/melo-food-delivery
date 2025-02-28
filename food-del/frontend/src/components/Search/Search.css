@@ -1,4 +1,5 @@
 .search {
+    width: 50%; /* Set a fixed width for the search container */    
     position: sticky;
     top: 10px; /* Adjust this value based on your navbar height */
     right: 10px; /* Position it on the right side */
