@@ -110,40 +110,47 @@ const stripeWebhook = async (req, res) => {
 
 const placeOrderCod = async (req, res) => {
     try {
-        const { userId, items, amount, name, address, phone, email, deliveryCharge } = req.body;
-
-        const newOrder = new orderModel({
-            userId,
-            items,
-            amount, // Use the total amount from the request
-            name,
-            address,
-            phone,
-            payment: true,
-            currency: currency,
-            deliveryCharge // Save delivery charge in the order
-        });
-        await newOrder.save();
-        await userModel.findByIdAndUpdate(userId, { cartData: {} });
-
-        // Send email notification to the user
-        await sendOrderNotification({
-            _id: newOrder._id,
-            items: items,
-            amount: amount,
-            name: name,
-            address: address,
-            phone: phone,
-            currency: currency,
-            deliveryCharge: deliveryCharge // Pass delivery charge to the email template
-        }, email);
-
-        res.json({ success: true, message: "Order Placed" });
+      const { items, amount, name, address, phone, email, deliveryCharge } = req.body;
+  
+      // Use the authenticated user's ID from req.user
+      const userId = req.user.id;
+  
+      const newOrder = new orderModel({
+        userId,
+        items,
+        amount, // Use the total amount from the request
+        name,
+        address,
+        phone,
+        payment: true,
+        currency: currency,
+        deliveryCharge, // Save delivery charge in the order
+      });
+  
+      await newOrder.save();
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+  
+      // Send email notification to the user
+      await sendOrderNotification(
+        {
+          _id: newOrder._id,
+          items: items,
+          amount: amount,
+          name: name,
+          address: address,
+          phone: phone,
+          currency: currency,
+          deliveryCharge: deliveryCharge, // Pass delivery charge to the email template
+        },
+        email
+      );
+  
+      res.json({ success: true, message: "Order Placed" });
     } catch (error) {
-        console.log("Error in placeOrderCod:", error);
-        res.json({ success: false, message: "Error" });
+      console.log("Error in placeOrderCod:", error);
+      res.json({ success: false, message: "Error" });
     }
-};
+  };
 
 // Listing Orders for Admin Panel
 const listOrders = async (req, res) => {
@@ -156,16 +163,17 @@ const listOrders = async (req, res) => {
     }
 };
 
-// User Orders for Frontend
 const userOrders = async (req, res) => {
     try {
-        const orders = await orderModel.find({ userId: req.body.userId });
-        res.json({ success: true, data: orders });
+      const orders = await orderModel
+        .find({ userId: req.user.id })
+        .sort({ date: -1 }); // Sort by date in descending order
+      res.json({ success: true, data: orders });
     } catch (error) {
-        console.log("Error in userOrders:", error);
-        res.json({ success: false, message: "Error" });
+      console.log("Error in userOrders:", error);
+      res.json({ success: false, message: "Error" });
     }
-};
+  };
 
 // Update Order Status
 const updateStatus = async (req, res) => {

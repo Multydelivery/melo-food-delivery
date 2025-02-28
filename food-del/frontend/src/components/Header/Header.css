@@ -1,7 +1,7 @@
 .header{
     height: 34vw;
     margin: 30px auto;
-    background: url('/public/default-monochrome-black.svg') no-repeat;
+    background: url('/src/assets/stencil.guatape.jpg') no-repeat;
     background-size: cover;
     background-position: center;
     position: relative;
