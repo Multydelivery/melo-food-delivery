@@ -1,13 +1,17 @@
 .search {
-    width: 50%; /* Set a fixed width for the search container */    
-    position: sticky;
-    top: 10px; /* Adjust this value based on your navbar height */
-    right: 10px; /* Position it on the right side */
+    position: relative; /* Default position */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+.search.fixed {
+    position: fixed; /* Fixed position when scrolling */
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white; /* Add a background color for visibility */
     z-index: 1000; /* Ensure it stays above other content */
-    background-color: white; /* Add background color for better visibility */
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+    padding: 10px; /* Add padding for better spacing */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
 }
 
 .search-icon {
@@ -16,52 +20,54 @@
     height: 24px;
 }
 
-.search form {
+.search-bar {
     display: flex;
     align-items: center;
+    transition: all 0.3s ease;
 }
 
-.search input {
+.search-bar input {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 4px;
-    margin-right: 8px;
-    width: 200px; /* Set a fixed width for the input */
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%; /* Make the input take up available space */
 }
 
-.search button {
-    padding: 8px 16px;
-    border: none;
+.search-bar input:focus {
+    border-color: #007bff; /* Change to your preferred focus color */
+}
+
+.search-bar button {
+    margin-left: 8px;
+    padding: 8px 12px;
     background-color: #007bff;
     color: white;
+    border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .search-results {
     position: absolute;
-    top: 100%;
+    top: 100%; /* Position results below the search bar */
     left: 0;
-    width: 100%;
+    right: 0;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-top: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto; /* Add scroll for overflow */
+    max-height: 300px; /* Limit height and enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .search-result-item {
     padding: 8px;
-    border-bottom: 1px solid #ccc;
     cursor: pointer;
 }
 
-.search-result-item:last-child {
-    border-bottom: none;
-}
-
 .search-result-item:hover {
-    background-color: #f8f9fa; /* Add hover effect */
+    background-color: #f0f0f0;
 }
