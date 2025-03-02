@@ -6,6 +6,7 @@ import AppDownload from '../../components/AppDownload/AppDownload';
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../Context/StoreContext';
 import './Home.css';
+import { FaShoppingCart } from 'react-icons/fa';
 
 const Home = () => {
   const [category, setCategory] = useState("All");
@@ -19,7 +20,10 @@ const Home = () => {
       <FoodDisplay category={category} />
       <AppDownload />
       <button className="view-cart-button" onClick={() => navigate('/cart')}>
-        View Cart ({Object.keys(cartItems).length})
+        <FaShoppingCart size={20} />
+        <span className="cart-count">
+          {Object.values(cartItems).reduce((total, quantity) => total + quantity, 0)}
+        </span>
       </button>
     </>
   );

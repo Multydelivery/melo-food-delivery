@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './Cart.css';
 import { StoreContext } from '../../Context/StoreContext';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount, currency, deliveryCharge } = useContext(StoreContext);
   const navigate = useNavigate();
+
+  // Scroll to top when the component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className='cart'>

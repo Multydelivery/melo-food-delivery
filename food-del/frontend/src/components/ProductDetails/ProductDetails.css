@@ -20,7 +20,7 @@
 .product-details button {
     padding: 8px 16px;
     border: none;
-    background-color: #ff5100;
+    background-color: #0800ff;
     color: white;
     border-radius: 4px;
     cursor: pointer;
@@ -28,14 +28,30 @@
 
 .view-cart-button {
     position: fixed;
-    bottom: 60px;
+    bottom: 20px;
     right: 20px;
-    font-size: 1.5rem;
-    padding: 10px 10px;
-    background-color: #042fc9;
+    padding: 10px;
+    background-color: #4756ff;
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-}
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
