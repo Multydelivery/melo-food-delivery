@@ -25,6 +25,10 @@ const App = () => {
         <Navbar setShowLogin={setShowLogin} />
         <br />
         <Search />
+        <br />
+        <br />
+        <br />
+        <br />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='product/:id' element={<ProductDetails />} />

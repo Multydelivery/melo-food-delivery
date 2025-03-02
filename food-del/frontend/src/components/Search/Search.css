@@ -1,17 +1,17 @@
 .search {
-    position: relative; /* Default position */
-    transition: all 0.3s ease; /* Smooth transition */
-}
-
-.search.fixed {
-    position: fixed; /* Fixed position when scrolling */
+    position: fixed;
+    /* Fix the navbar at the top */
     top: 0;
-    left: 0;
+    left: 10;
     right: 0;
-    background-color: white; /* Add a background color for visibility */
-    z-index: 1000; /* Ensure it stays above other content */
-    padding: 10px; /* Add padding for better spacing */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+    z-index: 1000;
+    background-color: white;
+    /* Ensure it stays above other content */
+    padding: 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px; /* Add margin to create space between navbar and search bar */
 }
 
 .search-icon {
@@ -32,11 +32,11 @@
     border-radius: 4px;
     outline: none;
     transition: border-color 0.3s ease;
-    width: 100%; /* Make the input take up available space */
+    width: 100%;
 }
 
 .search-bar input:focus {
-    border-color: #007bff; /* Change to your preferred focus color */
+    border-color: #007bff;
 }
 
 .search-bar button {
@@ -51,7 +51,7 @@
 
 .search-results {
     position: absolute;
-    top: 100%; /* Position results below the search bar */
+    top: 100%;
     left: 0;
     right: 0;
     background-color: white;
@@ -59,8 +59,8 @@
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    max-height: 300px; /* Limit height and enable scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .search-result-item {
