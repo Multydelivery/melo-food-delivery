@@ -28,13 +28,14 @@
 
 .view-cart-button {
     position: fixed;
-    bottom: 20px;
+    bottom: 60px;
     right: 20px;
-    padding: 10px 20px;
-    background-color: #007bff;
+    font-size: 1.5rem;
+    padding: 10px 10px;
+    background-color: #042fc9;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
     cursor: pointer;
     z-index: 1000;
 }

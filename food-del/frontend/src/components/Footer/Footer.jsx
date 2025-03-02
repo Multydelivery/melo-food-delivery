@@ -27,8 +27,9 @@ const Footer = () => {
         <div className="footer-content-right">
             <h2>GET IN TOUCH</h2>
             <ul>
-                <li>+1-813-532-9032</li>
+                {/* <li>+1-813-532-9032</li> */}
                 <li>delivery@melomarket.com.co</li>
+                <li>Copyright 2024 © Melomarket.com.co - All Right Reserved.</li>
             </ul>
         </div>
       </div>

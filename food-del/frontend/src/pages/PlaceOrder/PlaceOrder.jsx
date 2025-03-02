@@ -38,8 +38,34 @@ const PlaceOrder = () => {
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  // Function to check if the current time is within the allowed range (10:00 AM to 9:30 PM)
+  const isOrderTimeAllowed = () => {
+    const now = new Date();
+    const currentHours = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    // Define the allowed time range (10:00 AM to 9:30 PM)
+    const startTime = 10; // 10:00 AM
+    const endTime = 21; // 9:00 PM
+    const endMinutes = 30; // 9:30 PM
+
+    if (
+      (currentHours > startTime || (currentHours === startTime && currentMinutes >= 0)) &&
+      (currentHours < endTime || (currentHours === endTime && currentMinutes <= endMinutes))
+    ) {
+      return true; // Order time is allowed
+    }
+    return false; // Order time is not allowed
+  };
+
   const placeOrder = async (e) => {
     e.preventDefault();
+
+    // Check if the current time is within the allowed range
+    if (!isOrderTimeAllowed()) {
+      toast.error("Orders can only be placed between 10:00 AM and 9:30 PM.");
+      return; // Stop the order process if the time is outside the allowed range
+    }
 
     // Calculate delivery charge using the DeliveryChargeCalculator logic
     const deliveryFee = DeliveryChargeCalculator.calculateDeliveryCharge(data.zipcode);
@@ -155,6 +181,7 @@ const PlaceOrder = () => {
           </div>
         </div>
         <button className='place-order-submit' type='submit'>{payment === "cod" ? "Place Order" : "Proceed To Payment"}</button>
+        <p className="order-time-info">Orders can only be placed between 10:00 AM and 9:30 PM.</p>
       </div>
     </form>
   );
