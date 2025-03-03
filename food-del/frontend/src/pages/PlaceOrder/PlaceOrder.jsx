@@ -5,7 +5,7 @@ import { assets } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import DeliveryChargeCalculator from '../../components/Deliveries/DeliveryChargeCalculator'; // Import the new component
+import DeliveryChargeCalculator from '../../components/Deliveries/DeliveryChargeCalculator';
 
 const PlaceOrder = () => {
   const [payment, setPayment] = useState("cod");
@@ -46,7 +46,7 @@ const PlaceOrder = () => {
 
     // Define the allowed time range (10:00 AM to 9:30 PM)
     const startTime = 10; // 10:00 AM
-    const endTime = 21; // 9:00 PM
+    const endTime = 23; // 9:00 PM
     const endMinutes = 30; // 9:30 PM
 
     if (
@@ -168,6 +168,17 @@ const PlaceOrder = () => {
             <hr />
             <div className="cart-total-details"><b>Total</b><b>{currency}{(getTotalCartAmount() + (DeliveryChargeCalculator.calculateDeliveryCharge(data.zipcode) || 0)).toFixed(2)}</b></div>
           </div>
+        </div>
+        <div className="order-summary">
+          <h2>Order Summary</h2>
+          {food_list.map((item) => (
+            cartItems[item._id] > 0 && (
+              <div key={item._id} className="order-item">
+                <p>{item.name} x {cartItems[item._id]}</p>
+                <p>{currency}{(item.price * cartItems[item._id]).toFixed(2)}</p>
+              </div>
+            )
+          ))}
         </div>
         <div className="payment">
           <h2>Payment Method</h2>
