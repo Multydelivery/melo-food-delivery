@@ -39,6 +39,7 @@ const Search = () => {
     const handleResultClick = (id) => {
         navigate(`/product/${id}`);
         setShowSearchBar(false); // Hide search bar after clicking a result
+        window.scrollTo(0, 0); // Scroll to the top of the page
     };
 
     return (

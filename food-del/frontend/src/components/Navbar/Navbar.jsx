@@ -16,9 +16,16 @@ const Navbar = ({ setShowLogin }) => {
     navigate('/');
   };
 
+  const handleLogoClick = () => {
+    navigate('/'); // Navigate to the home page
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  };
+
   return (
     <div className='navbar'>
-      <Link to='/'><img className='logo' src={assets.cover} alt="" /></Link>
+      <Link to='/' onClick={handleLogoClick}>
+        <img className='logo' src={assets.cover} alt="" />
+      </Link>
       <ul className="navbar-menu">
         <Link to="/" onClick={() => setMenu("home")} className={`${menu === "home" ? "active" : ""}`}>HOME</Link>
         <a href='#explore-menu' onClick={() => setMenu("menu")} className={`${menu === "menu" ? "active" : ""}`}>MENU</a>
