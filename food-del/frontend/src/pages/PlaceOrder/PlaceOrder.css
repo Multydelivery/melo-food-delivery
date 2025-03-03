@@ -34,7 +34,7 @@
     width: 100%;
     margin-top: 50px;
     border: none;
-    background-color: tomato;
+    background-color: #FF4C24;
     color: white;
     padding: 12px 30px;
     border-radius: 4px;
@@ -79,6 +79,25 @@
     text-align: center;
   }
 
+  .order-summary-toggle {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .toggle-summary-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .toggle-summary-button:hover {
+    background-color: #218838;
+  }
+  
   .order-summary {
     margin-top: 20px;
     padding: 15px;
