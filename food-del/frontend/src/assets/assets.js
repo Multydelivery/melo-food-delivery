@@ -1,3 +1,4 @@
+import ponymalta from './ponymaltabeverages.png'
 import electronics from './electronics.default131x197.png'
 import cover from './cover.png'
 import basket_icon from './basket_icon.png'
@@ -96,7 +97,7 @@ export const menu_list = [
     },
     {
         menu_name: "Beverages",
-        menu_image: menu_2
+        menu_image: ponymalta
     },
     {
         menu_name: "Deserts",
