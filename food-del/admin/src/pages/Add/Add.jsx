@@ -76,13 +76,13 @@ const Add = () => {
                         <p>Product category</p>
                         <select name='category' onChange={onChangeHandler} value={data.category}>
                             <option value="Market">Market</option>
-                            <option value="Rolls">Rolls</option>
+                            <option value="Rolls">Beverages</option>
                             <option value="Deserts">Deserts</option>
-                            <option value="Sandwich">Sandwich</option>
+                            <option value="Sandwich">Burgers</option>
                             <option value="Cake">Cake</option>
                             <option value="Pizza">Pizza</option>
-                            <option value="Pasta">Pasta</option>
-                            <option value="Noodles">Noodles</option>
+                            <option value="Pasta">Merch</option>
+                            <option value="Noodles">Electronics</option>
                         </select>
                     </div>
                     <div className='add-price flex-col'>
