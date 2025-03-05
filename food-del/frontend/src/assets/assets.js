@@ -1,3 +1,5 @@
+import instagram_icon from './instagramoriginal.png'
+import white_instagram from './whiteinstagram30x30.png.png'
 import ponymalta from './ponymaltakirbi272x272.jpeg'
 import electronics from './electronics272x272.jpeg'
 import cover from './cover.png'
@@ -80,6 +82,8 @@ export const assets = {
     linkedin_icon,
     facebook_icon,
     twitter_icon,
+    instagram_icon,
+    white_instagram,
     cross_icon,
     selector_icon,
     profile_icon,
