@@ -3,6 +3,8 @@ import './Navbar.css';
 import { assets } from '../../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../Context/StoreContext';
+import { FaShoppingCart } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 
 
 const Navbar = ({ setShowLogin }) => {
@@ -34,12 +36,12 @@ const Navbar = ({ setShowLogin }) => {
       </ul>
       <div className="navbar-right">
         <Link to='/cart' className='navbar-search-icon'>
-          <img src={assets.basket_icon} alt="" />
+          <FaShoppingCart size={20} />
           <div className={getTotalCartAmount() > 0 ? "dot" : ""}></div>
         </Link>
         {!token ? <button onClick={() => setShowLogin(true)}>sign in</button>
           : <div className='navbar-profile'>
-            <img src={assets.profile_icon} alt="" />
+            <FaUserCircle size={30} />
             <ul className='navbar-profile-dropdown'>
               <li onClick={() => navigate('/myorders')}> <img src={assets.bag_icon} alt="" /> <p>Orders</p></li>
               <hr />

@@ -4,6 +4,8 @@
     gap: 20px;
 }
 .explore-menu h1{
+    font-size: max(2.5vw, 30px);
+    text-align: center;
     color: #262626;
     font-weight: 500;
 }
