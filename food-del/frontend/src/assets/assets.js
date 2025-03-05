@@ -1,5 +1,5 @@
-import ponymalta from './ponymaltabeverages.png'
-import electronics from './electronics.default131x197.png'
+import ponymalta from './ponymaltakirbi272x272.jpeg'
+import electronics from './electronics272x272.jpeg'
 import cover from './cover.png'
 import basket_icon from './basket_icon.png'
 import logo from './logo.png'
