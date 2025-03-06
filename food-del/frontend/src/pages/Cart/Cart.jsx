@@ -4,7 +4,7 @@ import { StoreContext } from '../../Context/StoreContext';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const { cartItems, food_list, removeFromCart, getTotalCartAmount, currency, deliveryCharge } = useContext(StoreContext);
+  const { cartItems, food_list, removeFromCart, addToCart, getTotalCartAmount, currency, deliveryCharge } = useContext(StoreContext);
   const navigate = useNavigate();
 
   // Scroll to top when the component mounts
@@ -28,7 +28,11 @@ const Cart = () => {
                   <img src={item.image} alt={item.name} />
                   <p>{item.name}</p>
                   <p>{currency}{item.price}</p>
-                  <div>{cartItems[item._id]}</div>
+                  <div className="cart-items-quantity">
+                    <span className="quantity-arrow" onClick={() => removeFromCart(item._id)}>◄</span>
+                    <p>{cartItems[item._id]}</p>
+                    <span className="quantity-arrow" onClick={() => addToCart(item._id)}>►</span>
+                  </div>
                   <p>{currency}{item.price * cartItems[item._id]}</p>
                   <p className='cart-items-remove-icon' onClick={() => removeFromCart(item._id)}>x</p>
                 </div>

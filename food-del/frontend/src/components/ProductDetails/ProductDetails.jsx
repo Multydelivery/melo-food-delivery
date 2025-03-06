@@ -22,6 +22,7 @@ const ProductDetails = () => {
     };
 
     fetchProduct();
+    window.scrollTo(0, 0); // Scrolls to the top every time the product ID changes
   }, [id]);
 
   if (!product) {
@@ -34,6 +35,7 @@ const ProductDetails = () => {
 
   return (
     <div className="product-details">
+      <button className='back-button' onClick={() => navigate(-1)}>Back</button>
       <img src={product.image} alt={product.name} />
       <h1>{product.name}</h1>
       <p>{product.description}</p>

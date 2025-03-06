@@ -46,7 +46,7 @@ const PlaceOrder = () => {
     const currentMinutes = now.getMinutes();
 
     // Define the allowed time range (10:00 AM to 9:30 PM)
-    const startTime = 10; // 10:00 AM
+    const startTime = 9; // 10:00 AM
     const endTime = 21; // 9:00 PM
     const endMinutes = 30; // 9:30 PM
 
