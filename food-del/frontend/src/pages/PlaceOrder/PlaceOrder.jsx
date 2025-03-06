@@ -34,6 +34,11 @@ const PlaceOrder = () => {
 
   const navigate = useNavigate();
 
+  // Scroll to top when the component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []);
+
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     setData((prevData) => ({ ...prevData, [name]: value }));
