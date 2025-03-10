@@ -51,8 +51,11 @@
 }
 
 .place-order-submit {
+  padding: 10px 15px;
+  height: 50px;
   background-color: #28a745;
   color: white;
+  font-size: 16px;
   font-weight: 500;
   border: none;
   cursor: pointer;
