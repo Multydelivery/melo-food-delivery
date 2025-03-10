@@ -20,11 +20,6 @@ const FoodItem = ({ image, name, desc, price, id }) => {
                 <Link to={`/product/${id}`}> {/* Only the image is clickable */}
                     <img className='food-item-image' src={image} alt={name} />
                 </Link>
-                <div className="food-item-counter">
-                    <img src={assets.remove_icon_red} onClick={() => handleRemoveFromCart(id)} alt="Remove" />
-                    <p>{cartItems[id] || 0}</p>
-                    <img src={assets.add_icon_green} onClick={() => addToCart(id)} alt="Add" />
-                </div>
             </div>
             <div className="food-item-info">
                 <div className="food-item-name-rating">
@@ -33,6 +28,11 @@ const FoodItem = ({ image, name, desc, price, id }) => {
                 </div>
                 <p className="food-item-desc">{desc}</p>
                 <p className="food-item-price">{currency}{price}</p>
+            </div>
+            <div className="food-item-counter">
+                <img src={assets.remove_icon_red} onClick={() => handleRemoveFromCart(id)} alt="Remove" />
+                <p>{cartItems[id] || 0}</p>
+                <img src={assets.add_icon_green} onClick={() => addToCart(id)} alt="Add" />
             </div>
         </div>
     );
