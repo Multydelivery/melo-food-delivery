@@ -5,7 +5,7 @@ dotenv.config();
 
 const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com', // Namecheap's private email SMTP server
-    port: 587, // Port for TLS/STARTTLS
+    port: 465, // Port for TLS/STARTTLS
     secure: false, // Use TLS/STARTTLS
     auth: {
         user: process.env.NAMECHEAP_EMAIL_USER,
