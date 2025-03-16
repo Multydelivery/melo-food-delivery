@@ -52,7 +52,7 @@ const PlaceOrder = () => {
 
     // Define the allowed time range (10:00 AM to 9:30 PM)
     const startTime = 9; // 10:00 AM
-    const endTime = 22; // 9:00 PM
+    const endTime = 23; // 9:00 PM
     const endMinutes = 30; // 9:30 PM
 
     if (
