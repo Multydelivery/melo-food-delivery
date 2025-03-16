@@ -19,7 +19,7 @@ const Footer = () => {
           {/* Add onClick handler to the logo */}
           <img
             className='footer-logo'
-            src={assets.cover}
+            src={assets.meloantojos}
             alt=""
             onClick={handleLogoClick} // Redirect on click
             style={{ cursor: 'pointer' }} // Add pointer cursor for better UX

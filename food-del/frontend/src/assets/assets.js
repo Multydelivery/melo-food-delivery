@@ -1,3 +1,4 @@
+import meloantojos from './meloantojos-logo/meloantojos.png'
 import instagram_icon from './instagramoriginal.png'
 import white_instagram from './whiteinstagram30x30.png.png'
 import ponymalta from './ponymaltakirbi272x272.jpeg'
@@ -68,6 +69,7 @@ import checked from './checked.png'
 import un_checked from './un_checked.png'
 
 export const assets = {
+    meloantojos,
     cover,
     logo,
     basket_icon,
