@@ -5,12 +5,16 @@ dotenv.config();
 
 const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com', // Namecheap's private email SMTP server
-    port: 587, // Port for TLS/STARTTLS
-    secure: false, // Use TLS/STARTTLS
+    port: 465, // Port for SSL
+    secure: true, // Use SSL
     auth: {
         user: process.env.NAMECHEAP_EMAIL_USER,
         pass: process.env.NAMECHEAP_EMAIL_PASS,
-    }
+    },
+    tls: {
+        // Do not fail on invalid certificates
+        rejectUnauthorized: false,
+    },
 });
 
 transporter.on('error', (error) => {
@@ -26,15 +30,15 @@ export const sendOrderNotification = async (orderDetails, userEmail) => {
         <td>${orderDetails.currency}${(item.price * item.quantity).toFixed(2)}</td>
       </tr>
     `).join('');
-  
+
     const deliveryCharge = orderDetails.deliveryCharge || 5.00; // Fallback to 5.00 if not provided
     const totalAmount = (orderDetails.items.reduce((total, item) => total + item.price * item.quantity, 0) + deliveryCharge).toFixed(2);
-  
+
     const mailOptions = {
-      from: process.env.NAMECHEAP_EMAIL_USER,
-      to: [userEmail, process.env.ADMIN_EMAIL],
-      subject: 'Order Confirmation',
-      html: `
+        from: process.env.NAMECHEAP_EMAIL_USER,
+        to: [userEmail, process.env.ADMIN_EMAIL],
+        subject: 'Order Confirmation',
+        html: `
         <div style="text-align: center;">
          <p></p>
         </div>
@@ -67,11 +71,11 @@ export const sendOrderNotification = async (orderDetails, userEmail) => {
         <p>If you have any questions, please reply to this email.</p>
       `
     };
-  
+
     try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent successfully: ' + info.response);
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully: ' + info.response);
     } catch (error) {
-      console.error('Error sending email:', error);
+        console.error('Error sending email:', error);
     }
-  };
+};
