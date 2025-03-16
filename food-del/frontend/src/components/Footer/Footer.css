@@ -9,7 +9,8 @@
     padding-top: 80px;
 }
 .footer-logo {
-    width: 40%;
+    width: 50%;
+    border-radius: 20px;
 }
 .footer-content{
     width: 100%;

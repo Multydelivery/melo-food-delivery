@@ -15,6 +15,7 @@
 
 .navbar .logo {
     width: 150px;
+    border-radius: 20px;
 }
 
 .navbar-menu {
@@ -135,7 +136,8 @@
 
 @media (max-width:900px) {
     .navbar .logo {
-        width: 120px;
+        width: 150px;
+        border-radius: 20px;
     }
 
     .navbar-menu {

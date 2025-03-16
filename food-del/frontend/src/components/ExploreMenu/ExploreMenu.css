@@ -10,8 +10,12 @@
     font-weight: 500;
 }
 .explore-menu-text{
+    font-size: 70px;
+    font-style: italic;
+    font-weight: 500;
+    text-align: center;
     max-width: 60%;
-    color: #808080;
+    color: #211a1a;
 }
 .explore-menu-list{
     display: flex;
