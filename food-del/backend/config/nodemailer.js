@@ -4,16 +4,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-    host: 'mail.privateemail.com', // Namecheap's private email SMTP server
-    port: 465, // Port for SSL
-    secure: true, // Use SSL
+    service: 'gmail',
     auth: {
-        user: process.env.NAMECHEAP_EMAIL_USER,
-        pass: process.env.NAMECHEAP_EMAIL_PASS,
-    },
-    tls: {
-        // Do not fail on invalid certificates
-        rejectUnauthorized: false,
+        type: 'OAuth2',
+        user: process.env.GOOGLE_EMAIL_USER,
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+        accessToken: process.env.GOOGLE_ACCESS_TOKEN, // Optional, Nodemailer will generate this automatically
     },
 });
 
@@ -24,10 +22,10 @@ transporter.on('error', (error) => {
 export const sendOrderNotification = async (orderDetails, userEmail) => {
     const itemsList = orderDetails.items.map(item => `
       <tr>
-        <td>${item.name}</td>
-        <td>${item.quantity}</td>
-        <td>${orderDetails.currency}${item.price.toFixed(2)}</td>
-        <td>${orderDetails.currency}${(item.price * item.quantity).toFixed(2)}</td>
+        <td style="padding: 10px; border: 1px solid #ddd;">${item.name}</td>
+        <td style="padding: 10px; border: 1px solid #ddd;">${item.quantity}</td>
+        <td style="padding: 10px; border: 1px solid #ddd;">${orderDetails.currency}${item.price.toFixed(2)}</td>
+        <td style="padding: 10px; border: 1px solid #ddd;">${orderDetails.currency}${(item.price * item.quantity).toFixed(2)}</td>
       </tr>
     `).join('');
 
@@ -35,41 +33,40 @@ export const sendOrderNotification = async (orderDetails, userEmail) => {
     const totalAmount = (orderDetails.items.reduce((total, item) => total + item.price * item.quantity, 0) + deliveryCharge).toFixed(2);
 
     const mailOptions = {
-        from: process.env.NAMECHEAP_EMAIL_USER,
+        from: process.env.GOOGLE_EMAIL_USER,
         to: [userEmail, process.env.ADMIN_EMAIL],
         subject: 'Order Confirmation',
         html: `
-        <div style="text-align: center;">
-         <p></p>
+        <div style="font-family: Arial, sans-serif; color: #333; text-align: center;">
+            <h1 style="color: #4CAF50;">Order Confirmation</h1>
+            <p>Thank you for your order, <strong>${orderDetails.name}</strong>!</p>
+            <p>Your order details are as follows:</p>
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background-color: #4CAF50; color: white;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">Item</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Quantity</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Price</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemsList}
+                    <tr>
+                        <td colspan="3" style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>Delivery Charge</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${orderDetails.currency}${deliveryCharge.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>Total Amount</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>${orderDetails.currency}${totalAmount}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Delivery Address:</strong> ${orderDetails.address.street}, ${orderDetails.address.city}, ${orderDetails.address.state}, ${orderDetails.address.zipcode}</p>
+            <p><strong>Phone Number:</strong> ${orderDetails.phone}</p>
+            <p>we'll send you notification of delivery time!</p>
         </div>
-        <h1>Order Confirmation</h1>
-        <p>Thank you for your order, <strong>${orderDetails.name}</strong>!</p> <!-- Add name here -->
-        <p>Your order details are as follows:</p>
-        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemsList}
-            <tr>
-              <td colspan="3"><strong>Delivery Charge</strong></td>
-              <td>${orderDetails.currency}${deliveryCharge.toFixed(2)}</td>
-            </tr>
-            <tr>
-              <td colspan="3"><strong>Total Amount</strong></td>
-              <td><strong>${orderDetails.currency}${totalAmount}</strong></td>
-            </tr>
-          </tbody>
-        </table>
-        <p><strong>Delivery Address:</strong> ${orderDetails.address.street}, ${orderDetails.address.city}, ${orderDetails.address.state}, ${orderDetails.address.zipcode}</p>
-        <p><strong>Phone Number:</strong> ${orderDetails.phone}</p>
-        <p>If you have any questions, please reply to this email.</p>
-      `
+        `
     };
 
     try {
