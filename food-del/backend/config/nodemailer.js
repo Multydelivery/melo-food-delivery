@@ -22,7 +22,11 @@ transporter.on('error', (error) => {
 export const sendOrderNotification = async (orderDetails, userEmail) => {
     const itemsList = orderDetails.items.map(item => `
       <tr>
+        <td style="padding: 10px; border: 1px solid #ddd;">
+          <img src="${item.image}" alt="${item.name}" style="width: 100px; height: auto; display: block; margin: 0 auto;">
+        </td>
         <td style="padding: 10px; border: 1px solid #ddd;">${item.name}</td>
+        <td style="padding: 10px; border: 1px solid #ddd;">${item.description}</td>
         <td style="padding: 10px; border: 1px solid #ddd;">${item.quantity}</td>
         <td style="padding: 10px; border: 1px solid #ddd;">${orderDetails.currency}${item.price.toFixed(2)}</td>
         <td style="padding: 10px; border: 1px solid #ddd;">${orderDetails.currency}${(item.price * item.quantity).toFixed(2)}</td>
@@ -44,7 +48,9 @@ export const sendOrderNotification = async (orderDetails, userEmail) => {
             <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
                 <thead>
                     <tr style="background-color: #4CAF50; color: white;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">Image</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Item</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Description</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Quantity</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Price</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Total</th>
@@ -53,18 +59,18 @@ export const sendOrderNotification = async (orderDetails, userEmail) => {
                 <tbody>
                     ${itemsList}
                     <tr>
-                        <td colspan="3" style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>Delivery Charge</strong></td>
+                        <td colspan="5" style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>Delivery Charge</strong></td>
                         <td style="padding: 10px; border: 1px solid #ddd;">${orderDetails.currency}${deliveryCharge.toFixed(2)}</td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>Total Amount</strong></td>
+                        <td colspan="5" style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>Total Amount</strong></td>
                         <td style="padding: 10px; border: 1px solid #ddd;"><strong>${orderDetails.currency}${totalAmount}</strong></td>
                     </tr>
                 </tbody>
             </table>
             <p><strong>Delivery Address:</strong> ${orderDetails.address.street}, ${orderDetails.address.city}, ${orderDetails.address.state}, ${orderDetails.address.zipcode}</p>
             <p><strong>Phone Number:</strong> ${orderDetails.phone}</p>
-            <p>we'll send you notification of delivery time!</p>
+            <p>We'll send you notification of delivery time!</p>
         </div>
         `
     };

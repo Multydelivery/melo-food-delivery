@@ -80,7 +80,7 @@ const Add = () => {
                             <option value="Deserts">Deserts</option>
                             <option value="Sandwich">Burgers</option>
                             <option value="Cake">Cake</option>
-                            <option value="Pizza">Pizza</option>
+                            <option value="Tipicos">Tipicos</option>
                             <option value="Pasta">Merch</option>
                             <option value="Noodles">Electronics</option>
                         </select>

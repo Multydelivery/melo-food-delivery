@@ -1,21 +1,47 @@
-.header{
+.header {
     height: 34vw;
     margin: 30px auto;
-    background: url('/src/assets/stencil.guatape.jpg') no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+.slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
-    position: relative;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
 }
-.header-contents{
+
+.slide.active {
+    opacity: 1;
+}
+
+.header-contents {
     position: absolute;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     gap: 1.5vw;
     max-width: 50%;
     top: 50%;
-    left: 40%;
+    right: 10%;
+    transform: translateY(-50%);
     animation: fadeIn 3s;
+    z-index: 2;
 }
-.header-contents h2{
+
+.header-contents h2 {
     display: flex;
     gap: 1vw;
     justify-content: flex-end;
@@ -25,74 +51,57 @@
     border-radius: 10px;
     padding: 0.5vw 1vw;
     opacity: 0.9;
-    font-weight:500;
+    font-weight: 500;
     color: rgb(190, 50, 37);
-    font-size: max(4.5vw,22px);
+    font-size: max(4.5vw, 22px);
 }
-.header-contents p{
+
+.header-contents p {
     background-color: aliceblue;
     color: rgb(247, 5, 5);
     font-size: 1vw;
 }
-.header-contents button{
+
+.header-contents button {
     border: none;
     color: #cc0707;
     font-weight: 500;
     padding: 1vw 2.3vw;
     background: rgb(231, 202, 8);
-    font-size: max(1vw,13px);
+    font-size: max(1vw, 13px);
     border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
-@media (max-width:1050px) {
-    .header{
+
+.header-contents button:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 1050px) {
+    .header {
         height: 38vw;
     }
-    .header-contents{
+    .header-contents {
         max-width: 45%;
     }
 }
-@media(max-width:750px){
-    .header-contents{
-        max-width: 55%;
+
+@media (max-width: 750px) {
+    .header-contents {
+        max-width: 65%;
+        right: 5%;
     }
-    .header-contents p{
-       display: none;
+    .header-contents p {
+        display: none;
     }
-    .header-contents button{
+    .header-contents button {
         padding: 2vw 4vw;
     }
 }
 
-/* SoundCloudPlayer.css */
-.soundcloud-player {
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:100px;
-    border:none;
-    overflow:hidden;
-
-    width: 100%;
-    height: 100px;
-    border: none;
-    overflow: hidden;
-  }
-  
-  .soundcloud-link {
-    font-size: 10px;
-    color: #cccccc;
-    line-break: anywhere;
-    word-break: normal;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif;
-    font-weight: 100;
-  }
-  
-  .soundcloud-link a {
-    color: #cccccc;
-    text-decoration: none;
-  }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
   

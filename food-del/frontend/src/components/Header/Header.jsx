@@ -1,29 +1,45 @@
-import React from 'react'
-import './Header.css'
+import React, { useState, useEffect } from 'react';
+import './Header.css';
 
 const Header = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const images = [
+        '/src/assets/stencil.guatape.jpg',
+        '/src/assets/stencil.represaguatape.jpg', // Add your image paths here
+        '/src/assets/stencil.banderacolombiacartagena.jpg',
+        '/src/assets/image4.jpg'
+    ];
+
     const viewMenu = () => {
-        window.scrollTo(0,document.getElementById('explore-menu').offsetTop);
+        window.scrollTo(0, document.getElementById('explore-menu').offsetTop);
     };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % images.length);
+        }, 5000); // Change slide every 5 seconds
+        return () => clearInterval(interval);
+    }, [images.length]);
 
     return (
         <div className='header'>
+            {/* Slideshow container */}
+            <div className="slideshow">
+                {images.map((image, index) => (
+                    <div 
+                        key={index}
+                        className={`slide ${index === currentSlide ? 'active' : ''}`}
+                        style={{ backgroundImage: `url(${image})` }}
+                    />
+                ))}
+            </div>
+            
             <div className='header-contents'>
                 <h2>Order your favourites here!</h2>
-                {/* Uncomment the below line for additional text */}
-                {/* <p>Choose from a diverse menu featuring a delectable array of dishes crafted with the finest ingredients and culinary expertise. Our mission is to satisfy your cravings and elevate your dining experience, one delicious meal at a time.</p> */}
                 <button onClick={viewMenu}>View Menu</button>
-                <div className='header-image'>
-                    {/* <iframe className="soundcloud-player" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1859836161&color=%23b3b8b5&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe> */}
-                    {/* <div className="soundcloud-info">
-                        <a href="https://soundcloud.com/flaneur23" title="Flâneur" target="_blank">Flâneur</a> · 
-                        <a href="https://soundcloud.com/flaneur23/sound-design-signature-mix-001" title="Sound Design Signature Mix - 001" target="_blank">Sound Design Signature Mix - 001</a>
-                    </div> */}
-                </div>
             </div>
         </div>
     );
 }
 
 export default Header;
-

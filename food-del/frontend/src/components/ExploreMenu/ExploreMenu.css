@@ -9,6 +9,13 @@
     color: #262626;
     font-weight: 500;
 }
+.explore-menu p{
+    font-size: max(1.5vw, 16px);
+    text-align: center;
+    color: #747474;
+    max-width: 60%;
+    margin: auto;
+}
 .explore-menu-text{
     font-size: 70px;
     font-style: italic;
