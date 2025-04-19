@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';  
 import './Header.css';
+import { assets } from '../../assets/assets.js';
 
 const Header = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const images = [
-        '/src/assets/stencil.guatape.jpg',
-        '/src/assets/stencil.represaguatape.jpg', // Add your image paths here
-        '/src/assets/stencil.banderacolombiacartagena.jpg',
-        '/src/assets/image4.jpg'
-    ];
+    const images = [assets.guatape, assets.represa, assets.bandera];
 
     const viewMenu = () => {
         window.scrollTo(0, document.getElementById('explore-menu').offsetTop);
@@ -17,13 +13,12 @@ const Header = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % images.length);
-        }, 5000); // Change slide every 5 seconds
+        }, 4000);
         return () => clearInterval(interval);
     }, [images.length]);
 
     return (
         <div className='header'>
-            {/* Slideshow container */}
             <div className="slideshow">
                 {images.map((image, index) => (
                     <div 

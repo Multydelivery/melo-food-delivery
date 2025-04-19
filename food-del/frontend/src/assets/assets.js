@@ -1,3 +1,6 @@
+import guatape from './guatape.jpg'
+import represa from './represaguatape.jpg'
+import bandera from './banderacolombiacartagena.jpg'
 import meloantojos from './meloantojos-logo/meloantojos.png'
 import instagram_icon from './instagramoriginal.png'
 import white_instagram from './whiteinstagram30x30.png.png'
@@ -69,6 +72,9 @@ import checked from './checked.png'
 import un_checked from './un_checked.png'
 
 export const assets = {
+    guatape,
+    represa,
+    bandera,
     meloantojos,
     cover,
     logo,
