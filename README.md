@@ -1,6 +1,6 @@
 # Melo Market - Modern E-Commerce Platform
 
-![Melo Market Banner](https://i.imgur.com/JfQ7X9A.png)
+
 
 Melo Market is a cutting-edge e-commerce platform built with React, Tailwind CSS, and modern web technologies. This platform features a sleek UI, smooth animations, and all the functionality needed for a complete online shopping experience.
 
