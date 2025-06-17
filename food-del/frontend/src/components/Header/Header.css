@@ -3,6 +3,8 @@
     margin: 30px auto;
     position: relative;
     overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .slideshow {
@@ -21,10 +23,59 @@
     background-position: center;
     opacity: 0;
     transition: opacity 1s ease-in-out;
+    display: flex;
+    align-items: flex-end;
 }
 
 .slide.active {
     opacity: 1;
+}
+
+.slide-caption {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    width: 100%;
+    padding: 20px;
+    font-size: 1.5vw;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.slide.active .slide-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background-color: white;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .header-contents {
@@ -39,43 +90,63 @@
     transform: translateY(-50%);
     animation: fadeIn 3s;
     z-index: 2;
+    text-align: right;
 }
 
 .header-contents h2 {
-    display: flex;
-    gap: 1vw;
-    justify-content: flex-end;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
-    background-color: aliceblue;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
-    padding: 0.5vw 1vw;
-    opacity: 0.9;
-    font-weight: 500;
-    color: rgb(190, 50, 37);
+    padding: 1vw 2vw;
+    color: #c62828;
     font-size: max(4.5vw, 22px);
+    margin-bottom: 0.5vw;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header-contents p {
-    background-color: aliceblue;
-    color: rgb(247, 5, 5);
-    font-size: 1vw;
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #333;
+    font-size: max(1.2vw, 14px);
+    padding: 0.8vw 1.5vw;
+    border-radius: 5px;
+    font-weight: 500;
+    margin-bottom: 1vw;
 }
 
 .header-contents button {
     border: none;
-    color: #cc0707;
-    font-weight: 500;
-    padding: 1vw 2.3vw;
-    background: rgb(231, 202, 8);
-    font-size: max(1vw, 13px);
+    color: white;
+    font-weight: 600;
+    padding: 1.2vw 2.5vw;
+    background: linear-gradient(135deg, #c62828, #e53935);
+    font-size: max(1.1vw, 14px);
     border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(198, 40, 40, 0.4);
 }
 
 .header-contents button:hover {
-    transform: scale(1.05);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(198, 40, 40, 0.6);
+    background: linear-gradient(135deg, #e53935, #c62828);
+}
+
+.header-contents button:active {
+    transform: translateY(-1px);
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.header-contents button:hover .arrow {
+    transform: translateX(3px);
 }
 
 @media (max-width: 1050px) {
@@ -85,23 +156,40 @@
     .header-contents {
         max-width: 45%;
     }
+    .slide-caption {
+        font-size: 2vw;
+    }
 }
 
 @media (max-width: 750px) {
+    .header {
+        height: 50vw;
+    }
     .header-contents {
-        max-width: 65%;
-        right: 5%;
+        max-width: 80%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        align-items: center;
+        text-align: center;
+    }
+    .header-contents h2 {
+        font-size: max(5vw, 18px);
     }
     .header-contents p {
-        display: none;
+        font-size: max(2vw, 12px);
+        display: block;
     }
     .header-contents button {
         padding: 2vw 4vw;
     }
+    .slide-caption {
+        font-size: 3vw;
+        padding: 10px;
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
   
