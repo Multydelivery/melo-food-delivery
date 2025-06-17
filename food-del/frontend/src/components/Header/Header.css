@@ -32,8 +32,12 @@
 }
 
 .slide-caption {
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-    color: white;
+    letter-spacing: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: linear-gradient(transparent, rgba(230, 4, 4, 0.7));
+    color: rgb(244, 244, 249);
     width: 100%;
     padding: 20px;
     font-size: 1.5vw;
@@ -59,10 +63,11 @@
 }
 
 .indicator {
+    margin: 40px;
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(64, 128, 133, 0.5);
     border: none;
     cursor: pointer;
     padding: 0;

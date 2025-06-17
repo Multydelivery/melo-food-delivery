@@ -1,7 +1,7 @@
 :root {
   --primary-color: #ff6347;
   --primary-hover: #e5533a;
-  --text-dark: #262626;
+  --text-dark: #a82d22;
   --text-medium: #444;
   --text-light: #747474;
   --border-color: #e2e2e2;
@@ -22,17 +22,26 @@
   margin-bottom: 20px;
 }
 
-.explore-menu h1 {
-  font-size: clamp(28px, 3vw, 42px);
+h1 {
+  font-family: "Rubik Spray Paint", system-ui;
+  font-size: clamp(32px, 4vw, 48px);
   color: var(--text-dark);
-  font-weight: 600;
+  font-weight: 700;
+  margin: 0;
+}
+
+.explore-menu h1 {
+  letter-spacing: 5px;
+  font-size: clamp(28px, 3vw, 42px);
+  color: rgb(115, 21, 106);
+  text-shadow: 0ch 0ch 10px rgba(141, 103, 134, 0.947);
   margin-bottom: 10px;
   position: relative;
   display: inline-block;
 }
 
 .explore-menu h1::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -8px;
   left: 50%;
@@ -43,6 +52,7 @@
 }
 
 .explore-menu-subtitle {
+  font-family: "Poppins", sans-serif;
   font-size: clamp(16px, 1.5vw, 20px);
   color: var(--text-medium);
   max-width: 800px;
@@ -138,7 +148,7 @@
 }
 
 .explore-menu-divider::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 50%;
@@ -153,11 +163,11 @@
   .explore-menu-list-container {
     padding: 0 40px;
   }
-  
+
   .explore-menu-list {
     gap: 40px;
   }
-  
+
   .menu-item-image-container {
     width: 120px;
     height: 120px;
@@ -170,17 +180,17 @@
     padding: 30px 15px;
     gap: 20px;
   }
-  
+
   .explore-menu-list {
     gap: 20px;
     padding-bottom: 30px;
   }
-  
+
   .menu-item-image-container {
     width: 80px;
     height: 80px;
   }
-  
+
   .explore-menu-list-item {
     min-width: 90px;
   }

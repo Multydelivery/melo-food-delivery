@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { StoreContext } from '../../Context/StoreContext';
 import './ExploreMenu.css';
 
@@ -8,8 +8,8 @@ const ExploreMenu = ({ category, setCategory }) => {
   return (
     <section className='explore-menu' id='explore-menu'>
       <div className="explore-menu-header">
-        <h1>Explore Our Menu</h1>
-        <p className='explore-menu-subtitle'>Serving Englewood, New Jersey and neighbors since 2019</p>
+        <h1 className='explore-menu-title'>Explore Our Menu</h1>
+        <p className='explore-menu-subtitle'>Est. 2019</p>
       </div>
       
       <div className="explore-menu-list-container">

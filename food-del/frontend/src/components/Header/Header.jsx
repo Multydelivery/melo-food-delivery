@@ -7,8 +7,8 @@ const Header = () => {
     const [isHovered, setIsHovered] = useState(false);
     const images = [assets.guatape, assets.represa, assets.bandera];
     const captions = [
-        "Discover the beauty of Guatapé",
-        "Explore our local heritage",
+        "Discover the colombian sweetness",
+        "Explore our culture",
         "Taste authentic flavors"
     ];
 
@@ -66,8 +66,8 @@ const Header = () => {
             </div>
             
             <div className='header-contents'>
-                <h2>Order your favorite dishes here!</h2>
-                <p>Fresh ingredients, authentic recipes</p>
+                {/* <h2>Order your favorite dishes here!</h2>
+                <p>Fresh ingredients, authentic recipes</p> */}
                 <button onClick={viewMenu}>
                     View Menu <span className="arrow">→</span>
                 </button>
