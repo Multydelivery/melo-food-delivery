@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './List.css';
 import { currency } from '../../assets/assets';
 import axios from 'axios';
@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 const List = () => {
   const [list, setList] = useState([]);
-  const navigate = useNavigate();
 
   const fetchList = async () => {
     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/food/list`);
